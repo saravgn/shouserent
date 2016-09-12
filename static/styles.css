@@ -1,0 +1,244 @@
+* {
+	font-family: "Arial";
+	font-weight: 700;
+}
+
+h1 {
+	font-family: "Comic Sans MS", "Comic Sans", cursive;
+	font-size: 40px;
+	line-height: 60px;
+	font-weight: 300;
+	text-align: -webkit-auto;
+	color: #486e64;
+    background-color: beige;
+}
+
+h2 {
+	font-size: 24px;
+	color: #cc0000;
+	line-height: 29px;
+}
+
+h3 {
+	font-size: 25px;
+	color: green;
+	line-height: 23px;
+}
+
+h4 {
+	color: green;
+}
+
+.col-md-10 {
+    text-align: center;
+    background-color: black;
+}
+
+.col-md-3 {
+	background-color: black;
+}
+
+.col-md-6 {
+	background-color: black;
+}
+
+.col-md-12 {
+	background-color: black;
+}
+
+ p {
+	font-family: "Comic Sans MS", "Comic Sans", cursive;
+	font-size: 21px;
+ 	color: #cc0000;
+ 	line-height: 24px;
+ 	font-weight: 400;
+ }
+
+ strong {
+ 	font-size: 16px;
+ 	color: #cc0000;
+ 	line-height: 24px;
+ 	font-weight: normal;
+ }
+
+ a {
+ 	font-size: 14px;
+ 	color: #cc0000;
+ 	line-height: 17px;
+ }
+
+ body {
+ 	background: url("/static/backp.jpg");
+ 	background-repeat:no-repeat;
+ 	-webkit-background-size: cover;
+	-moz-background-size: cover;
+	-o-background-size: cover;
+	background-size: cover;
+	font-family: "Comic Sans MS", "Comic Sans", cursive;
+	color-font: white;
+ }
+
+label {
+	color: white;
+  	text-decoration: none;
+  	font-size: 18px;
+}
+
+.padding-top {
+	padding-top: 30px;
+}
+.padding-bottom {
+	padding-bottom: 30px;
+	text-align: center;
+}
+.margin-right {
+	margin-right: 30px;
+}
+.padding-none {
+	padding: 0;
+}
+.btn {
+	margin: 0;
+	border-color: #cc0000;
+	border-width: 2px;
+	color: #f5f5f5;
+	background:#39ad09;
+	font-size: large;
+}
+.btn:hover {
+	border-color: #cc0000;
+}
+.btn.delete {
+	border-color: #cc0000;
+	color: #cc0000;
+}
+.btn.delete:hover {
+	border-color: #aaaaaa;
+	color: red;
+}
+.glyphicon {
+	margin-right: 10px;
+}
+.top-menu {
+	padding-top: 30px;
+	padding-bottom: 30px;
+}
+.top-menu p {
+	margin-bottom: 0;
+	line-height: 16px;
+}
+.top-menu a {
+	margin-bottom: 0;
+	line-height: 16px;
+	font-size: 16px;
+	color: #cc0000;
+	font-weight: 400;
+}
+.divider {
+	height: 15px;
+}
+.divider.blue {
+	background-color: #cc0000;
+}
+.divider.green {
+	background-color: #cc0000;
+}
+.banner.main {
+	height: 150px;
+	background-position: right;
+	background-repeat: no-repeat;
+	background-size: cover;
+	background-color: beige;
+
+}
+
+.col-md-10 {
+    width: 100%;
+}
+
+.banner.menu {
+	height: 150px;
+	background-color: beige;
+}
+.banner.profile {
+	height: 150px;
+	background-color: #A6E8EB;
+}
+
+@media only screen and (min-width: 1020px) {
+
+	.banner h1 {
+		margin: 45px 0;
+		font-size: 4vw;
+	}
+}
+
+@media only screen and (max-width: 1019px) {
+
+   .banner h1 {
+		margin: 45px 0;
+		font-size: 6vw;
+	}
+}
+
+ .restaurant-list {
+ 	background-color: #F0F0F0;
+ 	padding: 20px;
+u }
+ .restaurant-list:hover {
+ 	background-color: #e1e17f;
+ 	padding: 20px;
+}
+.menu-item {
+	background: #F0F0F0;
+	padding: 20px;
+	margin: 20px;
+	margin-left: -20px;
+}
+.menu-price {
+	font-weight: 700;
+}
+.creator {
+    padding-right: 10px;
+    /* margin-top: -90px; */
+    text-align: center;
+    float: left;
+}
+.creator img {
+	width: 150px;
+	border-radius: 50%;
+}
+.creator figcaption {
+	font-size: 14px;
+	color: #cc0000;
+	font-weight: 400;
+	margin-top: -20px;
+}
+
+.structurePage{
+	text-align: center
+}
+
+.flash {
+	background-color: black;
+	width:100%;
+	text-decoration: none;
+
+}
+
+.flash li {
+	list-style-type: none;
+	text-align: center;
+
+}
+
+.buttonsign {
+    margin-left: 20%;
+    width: 60%;
+    padding: 20px;
+}
+
+.buttonsign h1 {
+ 	font-family: "Helvetica Neue", Roboto, Helvetica, Arial, sans-serif;
+ 	color: red;
+}

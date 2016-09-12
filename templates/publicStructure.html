@@ -1,0 +1,81 @@
+{% extends "main.html" %}
+{% block content %}
+{% include "header.html" %}
+
+	<div class="row divider green">
+		<div class="col-md-12"></div>
+	</div>
+	<div class="row banner menu">
+		<div class="col-md-11 col-md-offset-1 padding-none">
+			
+			{% if category.name=="Villa" %}
+			<h1>Villa</h1>
+			<figure class="creator">
+				<img src="/static/villa.jpg" >
+			</figure>
+
+			{% elif category.name=="Studio" %}
+			<h1>Studio</h1>
+			<figure class="creator">
+				<img src="/static/studio.jpg" >
+			</figure>
+
+			{% elif category.name=="Apartment" %}
+			<h1>Apartment</h1>
+			<figure class="creator">
+				<img src="/static/apartment.jpg" >
+			</figure>
+
+			{% elif category.name=="Room" %}
+			<h1>Room</h1>
+			<figure class="creator">
+				<img src="/static/room.jpg" >
+			</figure>
+
+			{% endif %}
+			</h1>
+		</div>
+	</div>
+
+	<div class="error">{{error}}</div>
+
+	<div class="row padding-top padding-bottom">
+		<div class="col-md-1"></div>
+		<div class="col-md-11 padding-none">
+
+		</div>
+		<div class="col-md-7"></div>
+	</div>
+	<div class="row">
+		<div class="col-md-12">
+			{% with messages = get_flashed_messages() %}
+				{% if messages %}
+					<ul>
+						{% for message in messages %}
+							 <li> <strong> {{ message }} </strong> </li>
+						{% endfor %}
+					</ul>
+				{% endif %}
+			{% endwith %}
+		</div>
+	</div>
+	{% if structures !=[] %}
+		<div class="row">
+				{% for i in structures %}
+					<div class="col-md-3">
+
+						<h3>{{i.name}}</h3>
+						<p>{{i.description}}</p>
+						<p class="menu-price">{{i.price}} $</p>
+						<p>{{i.bedrooms}}</p>
+						<p>{{i.bathrooms}}</p>
+						<p>{{i.building_size}}</p>
+						<a href='{{url_for('editStructure', category_id = category.id, structure_id=i.id ) }}'>Edit</a> |
+						<a href='{{url_for('deleteStructure', category_id = category.id, structure_id=i.id ) }}'>Delete</a>
+
+					</div>
+				{% endfor %}
+			</div>
+		</div>
+	{% endif %}
+{% endblock %}
