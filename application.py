@@ -1,4 +1,5 @@
-from flask import Flask, render_template, request, redirect, jsonify, url_for, flash
+from flask import Flask, render_template
+from flask import request, redirect, jsonify, url_for, flash
 from sqlalchemy import create_engine, asc
 from sqlalchemy.orm import sessionmaker
 from database_setup import Base, Category, Structure, User
@@ -50,7 +51,7 @@ def fbconnect():
         'web']['app_id']
     app_secret = json.loads(
         open('fb_client_secrets.json', 'r').read())['web']['app_secret']
-    url = 'https://graph.facebook.com/oauth/access_token?grant_type=fb_exchange_token&client_id=%s&client_secret=%s&fb_exchange_token=%s' % (
+    url = 'https://graph.facebook.com/oauth/access_token?grant_type=fb_exchange_token&client_id=%s&client_secret=%s&fb_exchange_token=%s' % (  # noqa
         app_id, app_secret, access_token)
     h = httplib2.Http()
     result = h.request(url, 'GET')[1]
@@ -59,8 +60,6 @@ def fbconnect():
     userinfo_url = "https://graph.facebook.com/v2.4/me"
     # sstructure expire tag from access token
     token = result.split("&")[0]
-
-
     url = 'https://graph.facebook.com/v2.4/me?%s&fields=name,id,email' % token
     h = httplib2.Http()
     result = h.request(url, 'GET')[1]
@@ -72,12 +71,13 @@ def fbconnect():
     login_session['email'] = data["email"]
     login_session['facebook_id'] = data["id"]
 
-    # The token must be stored in the login_session in order to properly logout, let's sstructure out the information before the equals sign in our token
+    # The token must be stored in the login_session in order to properly logout
+    # let's sstructure out the information before the equals sign in our token
     stored_token = token.split("=")[1]
     login_session['access_token'] = stored_token
 
     # Get user picture
-    url = 'https://graph.facebook.com/v2.4/me/picture?%s&redirect=0&height=200&width=200' % token
+    url = 'https://graph.facebook.com/v2.4/me/picture?%s&redirect=0&height=200&width=200' % token  # noqa
     h = httplib2.Http()
     result = h.request(url, 'GET')[1]
     data = json.loads(result)
@@ -97,7 +97,7 @@ def fbconnect():
     output += '!</h1>'
     output += '<img src="'
     output += login_session['picture']
-    output += ' " style = "width: 300px; height: 300px;border-radius: 150px;-webkit-border-radius: 150px;-moz-border-radius: 150px;"> '
+    output += ' " style = "width: 300px; height: 300px;border-radius: 150px;-webkit-border-radius: 150px;-moz-border-radius: 150px;"> '  # noqa
 
     flash("Now logged in as %s" % login_session['username'])
     return output
@@ -108,7 +108,7 @@ def fbdisconnect():
     facebook_id = login_session['facebook_id']
     # The access token must me included to successfully logout
     access_token = login_session['access_token']
-    url = 'https://graph.facebook.com/%s/permissions?access_token=%s' % (facebook_id,access_token)
+    url = 'https://graph.facebook.com/%s/permissions?access_token=%s' % (facebook_id, access_token)  # noqa
     h = httplib2.Http()
     result = h.request(url, 'DELETE')[1]
     return "you have been logged out"
@@ -148,7 +148,8 @@ def gconnect():
         return response
 
     # Verify that the access token is used for the intended user.
-    login_session["credentials"] = credentials.access_token # Just add access token
+    # Just add access token
+    login_session["credentials"] = credentials.access_token
     gplus_id = credentials.id_token['sub']
     if result['user_id'] != gplus_id:
         response = make_response(
@@ -167,7 +168,7 @@ def gconnect():
     stored_credentials = login_session.get('credentials')
     stored_gplus_id = login_session.get('gplus_id')
     if stored_credentials is not None and gplus_id == stored_gplus_id:
-        response = make_response(json.dumps('Current user is already connected.'),
+        response = make_response(json.dumps('Current user is already connected.'),  # noqa
                                  200)
         response.headers['Content-Type'] = 'application/json'
         return response
@@ -201,7 +202,7 @@ def gconnect():
     output += '!</h1>'
     output += '<img src="'
     output += login_session['picture']
-    output += ' " style = "width: 300px; height: 300px;border-radius: 150px;-webkit-border-radius: 150px;-moz-border-radius: 150px;"> '
+    output += ' " style = "width: 300px; height: 300px;border-radius: 150px;-webkit-border-radius: 150px;-moz-border-radius: 150px;"> '  # noqa
     flash("you are now logged in as %s" % login_session['username'])
     print "done!"
     return output
@@ -254,6 +255,7 @@ def gdisconnect():
         response.headers['Content-Type'] = 'application/json'
         return response
 
+
 # JSON APIs to view Category Information
 @app.route('/category/<int:category_id>/structure/JSON')
 def categoryStructureJSON(category_id):
@@ -285,6 +287,7 @@ def showCategories():
     else:
         return render_template('categories.html', categories=categories)
 
+
 # Show a category structure
 @app.route('/category/<int:category_id>/')
 @app.route('/category/<int:category_id>/structure/')
@@ -292,16 +295,20 @@ def showStructure(category_id):
 
     category = session.query(Category).filter_by(id=category_id).one()
     creator = getUserInfo(category.user_id)
-    structures = session.query(Structure).filter_by(category_id=category_id).all()
+    structures = session.query(Structure).filter_by(category_id=category_id).all()  # noqa
 
     if 'username' not in login_session:
-        return render_template('publicStructure.html', structures=structures, category=category, creator=creator)
+        return render_template('publicStructure.html', structures=structures,
+                               category=category, creator=creator)
 
     else:
-        return render_template('structure.html', structures=structures, category=category, creator=creator)
+        return render_template('structure.html', structures=structures,
+                               category=category, creator=creator)
+
 
 # Create a new structure
-@app.route('/category/<int:category_id>/structure/new/', methods=['GET', 'POST'])
+@app.route('/category/<int:category_id>/structure/new/',
+           methods=['GET', 'POST'])
 def newStructure(category_id):
     if 'username' not in login_session:
         return redirect('/login')
@@ -309,13 +316,13 @@ def newStructure(category_id):
 
     if request.method == 'POST':
         newStructure = Structure(name=request.form['name'],
-                       description=request.form['description'],
-                       price=request.form['price'],
-                       bedrooms=request.form['bedrooms'],
-                       bathrooms=request.form['bathrooms'],
-                       building_size=request.form['building_size'],
-                       category_id=category_id,
-                       user_id=login_session['user_id'])
+                                 description=request.form['description'],
+                                 price=request.form['price'],
+                                 bedrooms=request.form['bedrooms'],
+                                 bathrooms=request.form['bathrooms'],
+                                 building_size=request.form['building_size'],
+                                 category_id=category_id,
+                                 user_id=login_session['user_id'])
 
         session.add(newStructure)
         session.commit()
@@ -324,8 +331,10 @@ def newStructure(category_id):
     else:
         return render_template('newStructure.html', category_id=category_id)
 
+
 # Edit a structure
-@app.route('/category/<int:category_id>/structure/<int:structure_id>/edit', methods=['GET', 'POST'])
+@app.route('/category/<int:category_id>/structure/<int:structure_id>/edit',
+           methods=['GET', 'POST'])
 def editStructure(category_id, structure_id):
     if 'username' not in login_session:
         return redirect('/login')
@@ -334,7 +343,7 @@ def editStructure(category_id, structure_id):
     category = session.query(Category).filter_by(id=category_id).one()
 
     if login_session['user_id'] != editedItem.user_id:
-        return "<script>function myFunction() {alert('You are not authorized to edit structure structures to this category. Please create your own category in order to edit structures.'); window.location='/category/'}</script><body onload='myFunction()''>"
+        return "<script>function myFunction() {alert('You are not authorized to edit structure structures to this category. Please create your own category in order to edit structures.'); window.location='/category/'}</script><body onload='myFunction()''>"  # noqa
 
     if request.method == 'POST':
         if request.form['name']:
@@ -355,28 +364,37 @@ def editStructure(category_id, structure_id):
         flash('Structure Successfully Edited')
         return redirect(url_for('showStructure', category_id=category_id))
     else:
-        return render_template('editStructure.html', category_id=category_id, structure_id=structure_id, structure=editedItem)
+        return render_template('editStructure.html', category_id=category_id,
+                               structure_id=structure_id, structure=editedItem)
 
 
 # Delete a structure
-@app.route('/category/<int:category_id>/structure/<int:structure_id>/delete', methods=['GET', 'POST'])
+@app.route('/category/<int:category_id>/structure/<int:structure_id>/delete',
+           methods=['GET', 'POST'])
 def deleteStructure(category_id, structure_id):
     if 'username' not in login_session:
         return redirect('/login')
     category = session.query(Category).filter_by(id=category_id).one()
-    structureToDelete = session.query(Structure).filter_by(id=structure_id).one()
+    structureToDelete = session.query(Structure).filter_by(id=structure_id).one()  # noqa
     if login_session['user_id'] != structureToDelete.user_id:
-        #return render_template('structure.html', user = login_session['user_id'] , structure= structureToDelete.user_id, category=category)
-        return "<script> function myFunction() {alert('You are not authorized to delete other structures'); window.location='/category/'}</script><body onload='myFunction()''>"
-        #error = "You are not authorized to delete structures to this category. Please create your own category in order to delete structures."
-        #return render_template('structure.html', category=category, error=error)
+        # return render_template('structure.html',
+        # user = login_session['user_id']
+        # structure= structureToDelete.user_id, category=category)
+        return "<script> function myFunction() {alert('You are not authorized to delete other structures'); window.location='/category/'}</script><body onload='myFunction()''>"  # noqa
+        # error = "You are not authorized to delete structures to
+        # this category.Please create your own category in
+        # order to delete structures."
+        # return render_template('structure.html',
+        # category=category, error=error)
     if request.method == 'POST':
         session.delete(structureToDelete)
         session.commit()
         flash('Structure Successfully Deleted')
         return redirect(url_for('showStructure', category_id=category_id))
     else:
-        return render_template('deleteStructure.html', structure=structureToDelete, category_id=category_id)
+        return render_template('deleteStructure.html',
+                               structure=structureToDelete,
+                               category_id=category_id)
 
 
 # Disconnect based on provider
