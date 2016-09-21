@@ -15,7 +15,7 @@ $ vagrant ssh
 Within the virtual machine change in to the shared directory by running
 
 ```bash
-$ python application.py
+$ python catalog.py
 ```
 
 ### Open in a webpage
