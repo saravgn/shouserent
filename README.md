@@ -1,7 +1,6 @@
 ## Sara Vagnarelli
 ## Project: House Renting
 
-#### Live [here](https://saravgn.github.io/shouserent/)
 
 The House renting application helps to find the right structure to rent for the perfect holliday. It provides a list of structures divided by categories (studio, apartment, villa, room). In addiction, it provides a user registration and authentication system. Registered users, anyone with a Google or Facebook account, will have the ability to post, edit and delete their own trip posts.
 
